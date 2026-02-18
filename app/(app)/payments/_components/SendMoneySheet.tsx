@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/lib/i18n/context";
 import { formatAmount } from "../_data/payments";
+import { confirmWithBiometrics } from "@/lib/webauthn";
 
 interface SendMoneySheetProps {
   open: boolean;
@@ -23,13 +25,18 @@ export default function SendMoneySheet({
 }: SendMoneySheetProps) {
   const t = useTranslations();
   const [raw, setRaw] = useState("");
+  const [confirming, setConfirming] = useState(false);
 
   const amount = parseInt(raw.replace(/\D/g, ""), 10) || 0;
   const insufficient = amount > balance;
   const invalid = amount <= 0;
 
-  function handleConfirm() {
+  async function handleConfirm() {
     if (invalid || insufficient) return;
+    setConfirming(true);
+    const ok = await confirmWithBiometrics();
+    setConfirming(false);
+    if (!ok) { toast.error(t("biometricError")); return; }
     onConfirm(amount);
     setRaw("");
   }
@@ -83,7 +90,7 @@ export default function SendMoneySheet({
           {t("availableBalance")} : {formatAmount(balance)}
         </div>
 
-        <Button className="w-full" disabled={invalid || insufficient} onClick={handleConfirm}>
+        <Button className="w-full" disabled={invalid || insufficient || confirming} onClick={handleConfirm}>
           {t("confirmSend")}
         </Button>
       </DrawerContent>

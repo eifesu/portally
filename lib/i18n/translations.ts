@@ -62,6 +62,7 @@ const translations = {
     noResults: "No results",
     rooms: "rooms",
     roomLabel: "Room",
+    biometricError: "Authentication failed. Please try again.",
   },
   fr: {
     // Auth
@@ -124,6 +125,7 @@ const translations = {
     noResults: "Aucun résultat",
     rooms: "chambres",
     roomLabel: "Chambre",
+    biometricError: "Authentification échouée. Veuillez réessayer.",
   },
 } as const;
 

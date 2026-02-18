@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { ArrowLeft, Search } from "lucide-react";
 import {
   Drawer,
@@ -12,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { mockResidences, type Residence } from "@/shared/mock";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "@/lib/i18n/context";
+import { confirmWithBiometrics } from "@/lib/webauthn";
 
 interface HousingPickerProps {
   open: boolean;
@@ -44,7 +46,9 @@ export default function HousingPicker({
     setStep("room");
   }
 
-  function pickRoom(roomId: string) {
+  async function pickRoom(roomId: string) {
+    const ok = await confirmWithBiometrics();
+    if (!ok) { toast.error(t("biometricError")); return; }
     onSelect(roomId);
     handleOpenChange(false);
   }
