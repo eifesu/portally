@@ -1,4 +1,4 @@
-export const MOCK_BALANCE = 75000;
+export const MOCK_BALANCE = 45000;
 
 export interface Transaction {
   id: string;
@@ -9,11 +9,55 @@ export interface Transaction {
 }
 
 export const MOCK_TRANSACTIONS: Transaction[] = [
-  { id: "t1", type: "received", name: "Awa Diallo", amount: 10000, date: "Aujourd'hui" },
-  { id: "t2", type: "sent", name: "Kofi Mensah", amount: 3500, date: "Hier" },
-  { id: "t3", type: "sent", name: "Marie Kouassi", amount: 7500, date: "Lun. 17 fév." },
-  { id: "t4", type: "received", name: "Thierno Bah", amount: 15000, date: "Sam. 15 fév." },
-  { id: "t5", type: "sent", name: "Adjoua Yao", amount: 5000, date: "Ven. 14 fév." },
+  {
+    id: "t1",
+    type: "sent",
+    name: "Déjeuner – Hôtel Président",
+    amount: 3500,
+    date: "Aujourd'hui",
+  },
+  {
+    id: "t2",
+    type: "sent",
+    name: "Supplément boissons – Gala ACD",
+    amount: 2000,
+    date: "Aujourd'hui",
+  },
+  {
+    id: "t3",
+    type: "sent",
+    name: "Cocktails – Bar Le Diplomate",
+    amount: 4500,
+    date: "Ven. 21 fév.",
+  },
+  {
+    id: "t4",
+    type: "received",
+    name: "Remb. repas – Awa Diallo",
+    amount: 1750,
+    date: "Ven. 21 fév.",
+  },
+  {
+    id: "t5",
+    type: "sent",
+    name: "Dîner – Restaurant Chez Tantie",
+    amount: 5000,
+    date: "Jeu. 20 fév.",
+  },
+  {
+    id: "t6",
+    type: "sent",
+    name: "Petit-déjeuner – Hôtel Ran",
+    amount: 1500,
+    date: "Jeu. 20 fév.",
+  },
+  {
+    id: "t7",
+    type: "received",
+    name: "Remb. cocktails – Kofi Mensah",
+    amount: 2250,
+    date: "Mer. 19 fév.",
+  },
 ];
 
 // Mock recipients keyed by the QR value they would emit
@@ -22,6 +66,7 @@ export const MOCK_RECIPIENTS: Record<string, string> = {
   "mock-recipient-kofi": "Kofi Mensah",
   "mock-recipient-marie": "Marie Kouassi",
   "mock-recipient-thierno": "Thierno Bah",
+  "mock-recipient-district": "District 9101",
 };
 
 export function resolveName(qrValue: string): string {

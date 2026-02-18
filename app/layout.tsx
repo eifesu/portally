@@ -6,6 +6,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Portally",
   description: "Portal assistant for Rotaract",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Portally",
+  },
 };
 
 export default function RootLayout({
@@ -26,6 +31,8 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
           rel="stylesheet"
         />
+        <link rel="apple-touch-icon" href="/icons/180.png" />
+        <meta name="theme-color" content="#D41367" />
       </head>
       <body className="antialiased">
         <LocaleProvider>
