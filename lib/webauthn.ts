@@ -4,8 +4,8 @@ function bufToBase64(buf: ArrayBuffer): string {
   return btoa(String.fromCharCode(...new Uint8Array(buf)));
 }
 
-function base64ToBuf(b64: string): Uint8Array {
-  return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+function base64ToBuf(b64: string): Uint8Array<ArrayBuffer> {
+  return new Uint8Array(Array.from(atob(b64), (c) => c.charCodeAt(0)));
 }
 
 export function isWebAuthnAvailable(): boolean {
