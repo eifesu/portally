@@ -13,6 +13,7 @@ import {
 import Page from "@/shared/components/Page/Page";
 import Typography from "@/shared/components/Typography";
 import { cn } from "@/lib/utils";
+import { getTranslations } from "@/lib/i18n/server";
 import { EVENTS, EVENT_TYPE_CONFIG, Attachment } from "../_data/events";
 import EventTypeBadge from "../_components/EventTypeBadge";
 
@@ -31,13 +32,12 @@ function formatSize(kb: number) {
   return `${kb} Ko`;
 }
 
-export default async function EventDetailPage({
-  params,
-}: EventDetailPageProps) {
+export default async function EventDetailPage({ params }: EventDetailPageProps) {
   const { id } = await params;
   const event = EVENTS.find((e) => e.id === id);
   if (!event) notFound();
 
+  const t = await getTranslations();
   const { border, iconBubble, typeIcon: Icon } = EVENT_TYPE_CONFIG[event.type];
 
   return (
@@ -47,7 +47,7 @@ export default async function EventDetailPage({
         className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors w-fit"
       >
         <ArrowLeft className="size-4" />
-        Événements
+        {t("events")}
       </Link>
 
       <div className={cn("rounded-md border-2 bg-card p-4 flex flex-col gap-3", border)}>
@@ -82,7 +82,7 @@ export default async function EventDetailPage({
             muted
             className="font-semibold uppercase tracking-widest text-xs"
           >
-            Pièces jointes
+            {t("attachments")}
           </Typography>
           <div className="flex flex-col gap-2">
             {event.attachments.map((attachment) => {

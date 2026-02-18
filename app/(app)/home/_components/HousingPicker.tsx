@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, Check, Search } from "lucide-react";
+import { ArrowLeft, Search } from "lucide-react";
 import {
   Drawer,
   DrawerContent,
@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { mockResidences, type Residence } from "@/shared/mock";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "@/lib/i18n/context";
 
 interface HousingPickerProps {
   open: boolean;
@@ -23,15 +24,14 @@ export default function HousingPicker({
   onOpenChange,
   onSelect,
 }: HousingPickerProps) {
+  const t = useTranslations();
   const [step, setStep] = useState<"residence" | "room">("residence");
   const [query, setQuery] = useState("");
-  const [selectedResidence, setSelectedResidence] =
-    useState<Residence | null>(null);
+  const [selectedResidence, setSelectedResidence] = useState<Residence | null>(null);
 
   function handleOpenChange(next: boolean) {
     onOpenChange(next);
     if (!next) {
-      // reset on close
       setStep("residence");
       setQuery("");
       setSelectedResidence(null);
@@ -66,10 +66,7 @@ export default function HousingPicker({
             {step === "room" && (
               <button
                 type="button"
-                onClick={() => {
-                  setStep("residence");
-                  setQuery("");
-                }}
+                onClick={() => { setStep("residence"); setQuery(""); }}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 <ArrowLeft className="size-4" />
@@ -77,13 +74,11 @@ export default function HousingPicker({
             )}
             <div>
               <DrawerTitle className="text-sm">
-                {step === "residence"
-                  ? "Select a residence"
-                  : selectedResidence?.name}
+                {step === "residence" ? t("selectResidence") : selectedResidence?.name}
               </DrawerTitle>
               {step === "room" && (
                 <p className="text-[11px] text-muted-foreground mt-0.5">
-                  Select your room
+                  {t("selectRoom")}
                 </p>
               )}
             </div>
@@ -91,20 +86,16 @@ export default function HousingPicker({
         </DrawerHeader>
 
         <div className="p-4 flex flex-col gap-3">
-          {/* Search */}
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
             <Input
               className="pl-8 h-9 text-sm"
-              placeholder={
-                step === "residence" ? "Search residence…" : "Search room…"
-              }
+              placeholder={step === "residence" ? t("searchResidence") : t("searchRoom")}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
 
-          {/* List */}
           <ul className="flex flex-col divide-y divide-border">
             {step === "residence"
               ? filteredResidences.map((residence) => (
@@ -116,7 +107,7 @@ export default function HousingPicker({
                     >
                       <span>{residence.name}</span>
                       <span className="text-xs text-muted-foreground">
-                        {residence.rooms.length} rooms
+                        {residence.rooms.length} {t("rooms")}
                       </span>
                     </button>
                   </li>
@@ -131,20 +122,15 @@ export default function HousingPicker({
                         "hover:text-primary"
                       )}
                     >
-                      <span>Room {room.label}</span>
-                      <span className="font-mono text-xs text-muted-foreground">
-                        {room.id}
-                      </span>
+                      <span>{t("roomLabel")} {room.label}</span>
+                      <span className="font-mono text-xs text-muted-foreground">{room.id}</span>
                     </button>
                   </li>
                 ))}
 
-            {(step === "residence"
-              ? filteredResidences
-              : filteredRooms
-            ).length === 0 && (
+            {(step === "residence" ? filteredResidences : filteredRooms).length === 0 && (
               <li className="py-6 text-center text-sm text-muted-foreground">
-                No results
+                {t("noResults")}
               </li>
             )}
           </ul>

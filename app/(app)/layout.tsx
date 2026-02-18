@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { DEMO_MODE } from "@/lib/demo";
 import BottomTabs from "./_components/BottomTabs";
 import TopNav from "./_components/TopNav";
 
@@ -8,13 +9,15 @@ export default async function AppLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  if (!DEMO_MODE) {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/");
+    if (!user) {
+      redirect("/");
+    }
   }
 
   return (

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, ArrowDownLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { getTranslations } from "@/lib/i18n/server";
 import Page from "@/shared/components/Page/Page";
 import Typography from "@/shared/components/Typography";
 import { cn } from "@/lib/utils";
@@ -8,6 +9,7 @@ import IdCard from "./_components/IdCard";
 import NextEventCard from "../events/_components/NextEventCard";
 import { EVENTS } from "../events/_data/events";
 import { MOCK_TRANSACTIONS, formatAmount } from "../payments/_data/payments";
+import { DEMO_MODE, DEMO_USER_ID } from "@/lib/demo";
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -22,27 +24,33 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 export default async function HomePage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const t = await getTranslations();
+  let userId = DEMO_USER_ID;
+
+  if (!DEMO_MODE) {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    userId = user!.id;
+  }
 
   const nextEvent = EVENTS[0];
   const recentTx = MOCK_TRANSACTIONS.slice(0, 3);
 
   return (
     <Page className="gap-4 pt-6">
-      <IdCard userId={user!.id} />
+      <IdCard userId={userId} />
 
       <section className="flex flex-col gap-2">
-        <SectionLabel>Prochain événement</SectionLabel>
+        <SectionLabel>{t("nextEvent")}</SectionLabel>
         <Link href={`/events/${nextEvent.id}`}>
           <NextEventCard event={nextEvent} compact />
         </Link>
       </section>
 
       <section className="flex flex-col gap-2">
-        <SectionLabel>Dernières transactions</SectionLabel>
+        <SectionLabel>{t("latestTransactions")}</SectionLabel>
         <div className="flex flex-col gap-2">
           {recentTx.map((tx) => (
             <div
@@ -54,7 +62,7 @@ export default async function HomePage() {
                   "rounded-md p-2 shrink-0",
                   tx.type === "received"
                     ? "bg-green-100 text-green-600"
-                    : "bg-red-100 text-red-500"
+                    : "bg-red-100 text-red-500",
                 )}
               >
                 {tx.type === "received" ? (
@@ -70,7 +78,7 @@ export default async function HomePage() {
               <p
                 className={cn(
                   "text-sm font-semibold tabular-nums shrink-0",
-                  tx.type === "received" ? "text-green-600" : "text-foreground"
+                  tx.type === "received" ? "text-green-600" : "text-foreground",
                 )}
               >
                 {tx.type === "received" ? "+" : "−"}

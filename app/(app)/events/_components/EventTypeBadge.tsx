@@ -1,4 +1,7 @@
+"use client";
+
 import { cn } from "@/lib/utils";
+import { useTranslations } from "@/lib/i18n/context";
 import { EVENT_TYPE_CONFIG, EventType } from "../_data/events";
 
 interface EventTypeBadgeProps {
@@ -6,11 +9,10 @@ interface EventTypeBadgeProps {
   className?: string;
 }
 
-export default function EventTypeBadge({
-  type,
-  className,
-}: EventTypeBadgeProps) {
-  const { label, badge, typeIcon: TypeIcon } = EVENT_TYPE_CONFIG[type];
+export default function EventTypeBadge({ type, className }: EventTypeBadgeProps) {
+  const t = useTranslations();
+  const { badge, typeIcon: TypeIcon } = EVENT_TYPE_CONFIG[type];
+  const label = t(type === "formation" ? "eventFormation" : "eventCamaraderie");
 
   return (
     <span

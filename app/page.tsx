@@ -18,6 +18,7 @@ import { createClient } from "@/lib/supabase/client";
 import { getFlag, getCountryCode } from "@/lib/phone";
 import { useLocale, useTranslations } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
+import { DEMO_MODE } from "@/lib/demo";
 
 const supabase = createClient();
 
@@ -53,6 +54,14 @@ export default function Home() {
   async function handleSendOtp() {
     const formatted = phone.startsWith("+") ? phone : "+" + phone;
     setLoading(true);
+
+    if (DEMO_MODE) {
+      setLoading(false);
+      toast.success(t("codeSent"));
+      setStep("otp");
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
       phone: formatted,
       options: { channel: "sms" },
@@ -69,6 +78,14 @@ export default function Home() {
   async function handleVerifyOtp() {
     const formatted = phone.startsWith("+") ? phone : "+" + phone;
     setLoading(true);
+
+    if (DEMO_MODE) {
+      setLoading(false);
+      toast.success(t("loggedIn"));
+      router.replace("/home");
+      return;
+    }
+
     const { error } = await supabase.auth.verifyOtp({
       phone: formatted,
       token: otp,

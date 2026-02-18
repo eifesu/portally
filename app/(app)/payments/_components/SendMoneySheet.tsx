@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/lib/i18n/context";
 import { formatAmount } from "../_data/payments";
 
 interface SendMoneySheetProps {
@@ -20,6 +21,7 @@ export default function SendMoneySheet({
   onConfirm,
   onClose,
 }: SendMoneySheetProps) {
+  const t = useTranslations();
   const [raw, setRaw] = useState("");
 
   const amount = parseInt(raw.replace(/\D/g, ""), 10) || 0;
@@ -37,7 +39,6 @@ export default function SendMoneySheet({
     onClose();
   }
 
-  // Simple numpad digits
   const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "000", "0", "⌫"];
 
   function pressKey(key: string) {
@@ -52,22 +53,20 @@ export default function SendMoneySheet({
     <Drawer open={open} onOpenChange={(v) => !v && handleClose()}>
       <DrawerContent className="px-4 pb-8 gap-5">
         <DrawerTitle className="text-center">
-          Envoyer à{" "}
+          {t("sendTo")}{" "}
           <span className="text-primary">{recipientName}</span>
         </DrawerTitle>
 
-        {/* Amount display */}
         <div className="text-center">
           <p className={`text-4xl font-bold tabular-nums transition-colors ${insufficient ? "text-destructive" : ""}`}>
             {amount > 0 ? new Intl.NumberFormat("fr-FR").format(amount) : "0"}
           </p>
           <p className="text-sm text-muted-foreground mt-1">FCFA</p>
           {insufficient && (
-            <p className="text-xs text-destructive mt-1">Solde insuffisant</p>
+            <p className="text-xs text-destructive mt-1">{t("insufficientBalance")}</p>
           )}
         </div>
 
-        {/* Numpad */}
         <div className="grid grid-cols-3 gap-2">
           {keys.map((k) => (
             <button
@@ -81,15 +80,11 @@ export default function SendMoneySheet({
         </div>
 
         <div className="text-center text-xs text-muted-foreground">
-          Solde disponible : {formatAmount(balance)}
+          {t("availableBalance")} : {formatAmount(balance)}
         </div>
 
-        <Button
-          className="w-full"
-          disabled={invalid || insufficient}
-          onClick={handleConfirm}
-        >
-          Confirmer l&apos;envoi
+        <Button className="w-full" disabled={invalid || insufficient} onClick={handleConfirm}>
+          {t("confirmSend")}
         </Button>
       </DrawerContent>
     </Drawer>

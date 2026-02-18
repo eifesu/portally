@@ -4,15 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Calendar, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const tabs = [
-  { href: "/home", label: "Home", icon: Home },
-  { href: "/payments", label: "Paiements", icon: Wallet },
-  { href: "/events", label: "Événements", icon: Calendar },
-];
+import { useTranslations } from "@/lib/i18n/context";
 
 export default function BottomTabs() {
   const pathname = usePathname();
+  const t = useTranslations();
+
+  const tabs = [
+    { href: "/home", label: t("tabHome"), icon: Home },
+    { href: "/payments", label: t("tabPayments"), icon: Wallet },
+    { href: "/events", label: t("tabEvents"), icon: Calendar },
+  ];
 
   return (
     <nav className="border-t border-border bg-background safe-bottom">
@@ -28,9 +30,7 @@ export default function BottomTabs() {
                 active ? "text-primary" : "text-muted-foreground"
               )}
             >
-              <Icon
-                className={cn("size-5", active ? "stroke-[2.5]" : "stroke-[1.5]")}
-              />
+              <Icon className={cn("size-5", active ? "stroke-[2.5]" : "stroke-[1.5]")} />
               {label}
             </Link>
           );

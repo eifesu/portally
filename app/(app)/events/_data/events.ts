@@ -24,7 +24,6 @@ export interface ScheduleEvent {
 export const EVENT_TYPE_CONFIG: Record<
   EventType,
   {
-    label: string;
     border: string;
     badge: string;
     iconBubble: string;
@@ -32,14 +31,12 @@ export const EVENT_TYPE_CONFIG: Record<
   }
 > = {
   formation: {
-    label: "Formation",
     border: "border-blue-200",
     badge: "bg-blue-100 text-blue-700",
     iconBubble: "bg-blue-100 text-blue-600",
     typeIcon: GraduationCap,
   },
   camaraderie: {
-    label: "Camaraderie",
     border: "border-amber-200",
     badge: "bg-amber-100 text-amber-700",
     iconBubble: "bg-amber-100 text-amber-600",

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { BrowserMultiFormatReader, IScannerControls } from "@zxing/browser";
 import { X, ShieldAlert } from "lucide-react";
+import { useTranslations } from "@/lib/i18n/context";
 
 interface QrScannerProps {
   onScan: (value: string) => void;
@@ -10,15 +11,14 @@ interface QrScannerProps {
 }
 
 export default function QrScanner({ onScan, onClose }: QrScannerProps) {
+  const t = useTranslations();
   const videoRef = useRef<HTMLVideoElement>(null);
   const controlsRef = useRef<IScannerControls | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!navigator?.mediaDevices?.getUserMedia) {
-      setError(
-        "L'accès à la caméra nécessite une connexion sécurisée (HTTPS). Veuillez accéder à l'application via HTTPS."
-      );
+      setError(t("cameraHttpsError"));
       return;
     }
 
@@ -42,8 +42,8 @@ export default function QrScanner({ onScan, onClose }: QrScannerProps) {
         if (!stopped) {
           setError(
             err?.name === "NotAllowedError"
-              ? "Accès à la caméra refusé. Veuillez autoriser l'accès dans les paramètres."
-              : "Impossible d'accéder à la caméra."
+              ? t("cameraDeniedError")
+              : t("cameraError")
           );
         }
       });
@@ -52,7 +52,7 @@ export default function QrScanner({ onScan, onClose }: QrScannerProps) {
       stopped = true;
       controlsRef.current?.stop();
     };
-  }, [onScan]);
+  }, [onScan, t]);
 
   return (
     <div className="fixed inset-0 z-50 bg-black flex flex-col">
@@ -76,7 +76,7 @@ export default function QrScanner({ onScan, onClose }: QrScannerProps) {
               <div className="relative size-56 rounded-md border-2 border-white shadow-[0_0_0_9999px_rgba(0,0,0,0.5)]" />
             </div>
             <p className="absolute bottom-8 left-0 right-0 text-white text-sm font-medium text-center">
-              Placez le QR code dans le cadre
+              {t("placeQrInFrame")}
             </p>
           </>
         )}
