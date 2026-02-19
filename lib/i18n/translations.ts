@@ -45,6 +45,11 @@ const translations = {
       "Camera access denied. Please allow access in your settings.",
     cameraError: "Unable to access the camera.",
     now: "Just now",
+    spendingOverview: "Spending Overview",
+    searchTransactions: "Search transactions...",
+    noTransactionsFound: "No transactions found",
+    totalSpent: "Total Spent",
+    last7Days: "Last 7 days",
 
     // ID Card
     memberRole: "Rotaract Member",
@@ -63,6 +68,44 @@ const translations = {
     rooms: "rooms",
     roomLabel: "Room",
     biometricError: "Authentication failed. Please try again.",
+
+    // Housing pages
+    housing: "Housing",
+    availableResidences: "Available Residences",
+    viewDetails: "View Details",
+    kmAway: "km away",
+    amenities: "Amenities",
+    roomTypes: "Room Types",
+    availableRooms: "Available Rooms",
+    selectThisRoom: "Select This Room",
+    capacity: "Capacity",
+    person: "person",
+    people: "people",
+    unavailable: "Unavailable",
+    roomSelected: "Room selected successfully",
+    available: "Available",
+    notAvailable: "Not available",
+
+    // Security Setup
+    setupSecurity: "Secure your account",
+    passkeyTitle: "Set up biometric authentication",
+    passkeyDescription:
+      "Use Face ID, Touch ID, or your device's biometric sensor to quickly verify payments and housing.",
+    setupPasskey: "Set up passkey",
+    skipPasskey: "Skip for now",
+    passkeySuccess: "Passkey configured successfully",
+    passkeyFailed: "Failed to set up passkey",
+    pinTitle: "Create a PIN code",
+    pinDescription:
+      "Your PIN will be used to verify payments and housing selection.",
+    pinPlaceholder: "Enter 4-digit PIN",
+    confirmPinPlaceholder: "Confirm PIN",
+    createPin: "Create PIN",
+    pinMismatch: "PINs do not match",
+    pinTooShort: "PIN must be 4 digits",
+    pinSuccess: "PIN created successfully",
+    enterPin: "Enter your PIN",
+    pinIncorrect: "Incorrect PIN",
   },
   fr: {
     // Auth
@@ -108,6 +151,11 @@ const translations = {
       "Accès à la caméra refusé. Veuillez autoriser l'accès dans les paramètres.",
     cameraError: "Impossible d'accéder à la caméra.",
     now: "Maintenant",
+    spendingOverview: "Aperçu des dépenses",
+    searchTransactions: "Rechercher des transactions...",
+    noTransactionsFound: "Aucune transaction trouvée",
+    totalSpent: "Total dépensé",
+    last7Days: "7 derniers jours",
 
     // ID Card
     memberRole: "Membre Rotaract",
@@ -126,6 +174,44 @@ const translations = {
     rooms: "chambres",
     roomLabel: "Chambre",
     biometricError: "Authentification échouée. Veuillez réessayer.",
+
+    // Housing pages
+    housing: "Logement",
+    availableResidences: "Résidences Disponibles",
+    viewDetails: "Voir les détails",
+    kmAway: "km",
+    amenities: "Équipements",
+    roomTypes: "Types de chambres",
+    availableRooms: "Chambres disponibles",
+    selectThisRoom: "Sélectionner cette chambre",
+    capacity: "Capacité",
+    person: "personne",
+    people: "personnes",
+    unavailable: "Indisponible",
+    roomSelected: "Chambre sélectionnée avec succès",
+    available: "Disponible",
+    notAvailable: "Non disponible",
+
+    // Security Setup
+    setupSecurity: "Sécurisez votre compte",
+    passkeyTitle: "Configurer l'authentification biométrique",
+    passkeyDescription:
+      "Utilisez Face ID, Touch ID ou le capteur biométrique de votre appareil pour vérifier rapidement les paiements et le logement.",
+    setupPasskey: "Configurer la clé d'accès",
+    skipPasskey: "Passer pour l'instant",
+    passkeySuccess: "Clé d'accès configurée avec succès",
+    passkeyFailed: "Échec de la configuration de la clé d'accès",
+    pinTitle: "Créer un code PIN",
+    pinDescription:
+      "Votre code PIN sera utilisé pour vérifier les paiements et la sélection du logement.",
+    pinPlaceholder: "Entrez un code PIN à 4 chiffres",
+    confirmPinPlaceholder: "Confirmez le code PIN",
+    createPin: "Créer le code PIN",
+    pinMismatch: "Les codes PIN ne correspondent pas",
+    pinTooShort: "Le code PIN doit comporter 4 chiffres",
+    pinSuccess: "Code PIN créé avec succès",
+    enterPin: "Entrez votre code PIN",
+    pinIncorrect: "Code PIN incorrect",
   },
 } as const;
 

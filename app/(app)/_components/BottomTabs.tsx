@@ -20,7 +20,18 @@ export default function BottomTabs() {
     <nav className="border-t border-border bg-background safe-bottom">
       <div className="flex">
         {tabs.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href;
+          let active = pathname === href;
+
+          // Home tab also active for housing routes
+          if (href === "/home" && pathname.startsWith("/housing")) {
+            active = true;
+          }
+
+          // Events tab also active for event detail routes
+          if (href === "/events" && pathname.startsWith("/events/")) {
+            active = true;
+          }
+
           return (
             <Link
               key={href}

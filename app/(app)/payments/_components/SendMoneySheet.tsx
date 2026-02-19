@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "sonner";
 import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/lib/i18n/context";
 import { formatAmount } from "../_data/payments";
-import { confirmWithBiometrics } from "@/lib/webauthn";
+import { useVerifyAction } from "@/lib/use-verify-action";
 
 interface SendMoneySheetProps {
   open: boolean;
@@ -24,6 +23,7 @@ export default function SendMoneySheet({
   onClose,
 }: SendMoneySheetProps) {
   const t = useTranslations();
+  const { verifyAction, PinDialog } = useVerifyAction();
   const [raw, setRaw] = useState("");
   const [confirming, setConfirming] = useState(false);
 
@@ -34,9 +34,9 @@ export default function SendMoneySheet({
   async function handleConfirm() {
     if (invalid || insufficient) return;
     setConfirming(true);
-    const ok = await confirmWithBiometrics();
+    const ok = await verifyAction();
     setConfirming(false);
-    if (!ok) { toast.error(t("biometricError")); return; }
+    if (!ok) return;
     onConfirm(amount);
     setRaw("");
   }
@@ -57,8 +57,10 @@ export default function SendMoneySheet({
   }
 
   return (
-    <Drawer open={open} onOpenChange={(v) => !v && handleClose()}>
-      <DrawerContent className="px-4 pb-8 gap-5">
+    <>
+      <PinDialog />
+      <Drawer open={open} onOpenChange={(v) => !v && handleClose()}>
+        <DrawerContent className="px-4 pb-8 gap-5">
         <DrawerTitle className="text-center">
           {t("sendTo")}{" "}
           <span className="text-primary">{recipientName}</span>
@@ -95,5 +97,6 @@ export default function SendMoneySheet({
         </Button>
       </DrawerContent>
     </Drawer>
+    </>
   );
 }

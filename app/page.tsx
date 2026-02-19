@@ -19,6 +19,7 @@ import { getFlag, getCountryCode } from "@/lib/phone";
 import { useLocale, useTranslations } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 import { DEMO_MODE } from "@/lib/demo";
+import { hasPinSetup } from "@/lib/pin";
 
 const supabase = createClient();
 
@@ -82,7 +83,9 @@ export default function Home() {
     if (DEMO_MODE) {
       setLoading(false);
       toast.success(t("loggedIn"));
-      router.replace("/home");
+      // Check if user has set up PIN
+      const hasSecuritySetup = hasPinSetup();
+      router.replace(hasSecuritySetup ? "/home" : "/setup-security");
       return;
     }
 
@@ -97,7 +100,9 @@ export default function Home() {
       return;
     }
     toast.success(t("loggedIn"));
-    router.replace("/home");
+    // Check if user has set up PIN
+    const hasSecuritySetup = hasPinSetup();
+    router.replace(hasSecuritySetup ? "/home" : "/setup-security");
   }
 
   return (
