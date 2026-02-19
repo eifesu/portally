@@ -23,7 +23,9 @@ export default async function AppLayout({
   return (
     <div className="h-svh flex flex-col">
       <TopNav />
-      <main className="flex-1 overflow-y-auto">{children}</main>
+      <main className="flex-1 overflow-y-auto max-w-2xl mx-auto w-full md:no-scrollbar">
+        {children}
+      </main>
       <BottomTabs />
     </div>
   );
